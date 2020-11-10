@@ -35,7 +35,7 @@ class CameraBaseView(var activity: Activity, var flutterMethodListener: FlutterM
             scaleType = ScaleType.CenterCrop,
             lensPosition = back(),
             cameraConfiguration = CameraConfiguration(
-                    flashMode = autoFlash(),
+                    flashMode = on(),
                     jpegQuality = highestQuality()
             ),
             cameraErrorCallback = { error -> println(error.message) }
@@ -72,10 +72,10 @@ class CameraBaseView(var activity: Activity, var flutterMethodListener: FlutterM
 
     fun changeFlashMode(flashMode: Int) {
         val flash = when (flashMode) {
-            0 -> autoFlash()
+            0 -> on()
             1 -> torch()
             2 -> off()
-            else -> autoFlash()
+            else -> on()
         }
         fotoapparat.updateConfiguration(CameraConfiguration(
                 flashMode = flash

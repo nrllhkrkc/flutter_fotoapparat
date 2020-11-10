@@ -36,9 +36,7 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-    }
+
 }
 
 dependencies {
