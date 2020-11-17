@@ -35,7 +35,6 @@ class CameraBaseView(var activity: Activity, var flutterMethodListener: FlutterM
             scaleType = ScaleType.CenterCrop,
             lensPosition = back(),
             cameraConfiguration = CameraConfiguration(
-                    flashMode = on(),
                     jpegQuality = highestQuality()
             ),
             cameraErrorCallback = { error -> println(error.message) }

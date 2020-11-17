@@ -36,6 +36,7 @@ class _MyAppState extends State<MyApp> {
             Positioned.fill(
               child: FotoapparatCameraView(
                 cameraController: _controller,
+                previewFlashMode: CameraFlashMode.on,
               ),
             ),
             Positioned.fill(

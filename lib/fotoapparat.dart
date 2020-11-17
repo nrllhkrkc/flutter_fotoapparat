@@ -132,6 +132,7 @@ class NativeCameraController {
         widget.onPermissionDenied?.call();
       } else {
         resumeCamera();
+        changeFlashMode(widget.previewFlashMode);
       }
     });
   }
