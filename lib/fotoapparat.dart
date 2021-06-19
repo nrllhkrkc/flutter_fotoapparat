@@ -9,19 +9,19 @@ enum CameraFlashMode { on, off, auto }
 
 class FotoapparatCameraView extends StatefulWidget {
   ///After android and iOS user deny run time permission, this method is called.
-  final Function onPermissionDenied;
+  final Function? onPermissionDenied;
 
   ///This parameter accepts 3 values. `CameraFlashMode.auto`, `CameraFlashMode.on` and `CameraFlashMode.off`.
   /// For changing value after initial use `changeFlashMode` method in controller.
   final CameraFlashMode previewFlashMode;
 
   ///Controller for this widget
-  final FotoapparatCameraController cameraController;
+  final FotoapparatCameraController? cameraController;
 
-  _CameraViewState viewState;
+  late _CameraViewState viewState;
 
   FotoapparatCameraView({
-    Key key,
+    Key? key,
     this.previewFlashMode = CameraFlashMode.auto,
     this.cameraController,
     this.onPermissionDenied,
@@ -33,7 +33,7 @@ class FotoapparatCameraView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    if (cameraController != null) cameraController.setView(this);
+    if (cameraController != null) cameraController!.setView(this);
     viewState = _CameraViewState();
     return viewState;
   }
@@ -41,13 +41,13 @@ class FotoapparatCameraView extends StatefulWidget {
 
 class _CameraViewState extends State<FotoapparatCameraView>
     with WidgetsBindingObserver {
-  NativeCameraController controller;
-  Widget view;
+  late NativeCameraController controller;
+  late Widget view;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
     if (Platform.isAndroid) {
       view = AndroidView(
         viewType: 'plugins/fotoapparat',
@@ -66,7 +66,7 @@ class _CameraViewState extends State<FotoapparatCameraView>
     switch (state) {
       case AppLifecycleState.resumed:
         print("Flutter Life Cycle: resumed");
-        if (controller != null) controller.resumeCamera();
+        controller.resumeCamera();
         break;
       case AppLifecycleState.inactive:
         print("Flutter Life Cycle: inactive");
@@ -85,7 +85,7 @@ class _CameraViewState extends State<FotoapparatCameraView>
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
@@ -153,8 +153,8 @@ class NativeCameraController {
   }
 
   ///Call take picture in Native API
-  Future<String> takePicture() async {
-    return _channel.invokeMethod('takePicture', null);
+  Future<String?> takePicture() async {
+    return _channel.invokeMethod<String>('takePicture', null);
   }
 
   ///Call change flash mode in Native API

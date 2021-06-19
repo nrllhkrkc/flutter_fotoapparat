@@ -1,7 +1,7 @@
 import 'package:fotoapparat/fotoapparat.dart';
 
 class FotoapparatCameraController {
-  FotoapparatCameraView cameraView;
+  late FotoapparatCameraView cameraView;
 
   ///pause camera while stop camera preview.
   ///Plugin manage automatically pause camera based android, iOS lifecycle and widget visibility
@@ -22,7 +22,7 @@ class FotoapparatCameraController {
 
   ///Use this method for taking picture in take picture mode
   ///This method return path of image
-  Future<String> takePicture() {
+  Future<String?> takePicture() {
     return cameraView.viewState.controller.takePicture();
   }
 
