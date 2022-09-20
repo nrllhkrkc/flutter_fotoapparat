@@ -89,7 +89,7 @@ class _MyAppState extends State<MyApp> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    RaisedButton(
+                    ElevatedButton(
                       onPressed: () {
                         setState(() {
                           _imageFile = null;
@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
                       },
                       child: Text("İptal"),
                     ),
-                    RaisedButton(
+                    ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context, _imageFile);
                       },

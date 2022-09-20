@@ -12,9 +12,11 @@ import io.flutter.plugin.common.PluginRegistry
 import io.flutter.plugin.platform.PlatformView
 
 
-class CameraFlutterView(private var activityPluginBinding: ActivityPluginBinding,
-                        dartExecutor: BinaryMessenger,
-                        viewId: Int) : PlatformView, MethodChannel.MethodCallHandler, FlutterMethodListener {
+class CameraFlutterView(
+    private var activityPluginBinding: ActivityPluginBinding,
+    dartExecutor: BinaryMessenger,
+    viewId: Int
+) : PlatformView, MethodChannel.MethodCallHandler, FlutterMethodListener {
 
     private var channel: MethodChannel = MethodChannel(dartExecutor, "plugins/fotoapparat$viewId")
     private var cameraView = CameraBaseView(activityPluginBinding.activity, this)
@@ -29,10 +31,23 @@ class CameraFlutterView(private var activityPluginBinding: ActivityPluginBinding
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         if (call.method == "requestPermission") {
-            if (ActivityCompat.checkSelfPermission(activityPluginBinding.activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(activityPluginBinding.activity, arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
-                activityPluginBinding.addRequestPermissionsResultListener(object : PluginRegistry.RequestPermissionsResultListener {
-                    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>?, grantResults: IntArray): Boolean {
+            if (ActivityCompat.checkSelfPermission(
+                    activityPluginBinding.activity,
+                    Manifest.permission.CAMERA
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    activityPluginBinding.activity,
+                    arrayOf(Manifest.permission.CAMERA),
+                    REQUEST_CAMERA_PERMISSION
+                )
+                activityPluginBinding.addRequestPermissionsResultListener(object :
+                    PluginRegistry.RequestPermissionsResultListener {
+                    override fun onRequestPermissionsResult(
+                        requestCode: Int,
+                        permissions: Array<out String>,
+                        grantResults: IntArray
+                    ): Boolean {
                         for (i in grantResults) {
                             if (i == PackageManager.PERMISSION_DENIED) {
                                 try {
@@ -71,7 +86,7 @@ class CameraFlutterView(private var activityPluginBinding: ActivityPluginBinding
     }
 
     override fun onTakePictureFailed(result: MethodChannel.Result?, errorCode: String?, errorMessage: String?) {
-        activityPluginBinding.activity.runOnUiThread(Runnable { result?.error(errorCode, errorMessage, null) })
+        activityPluginBinding.activity.runOnUiThread(Runnable { result?.error(errorCode ?: "Error message null", errorMessage, null) })
     }
 
     companion object {
